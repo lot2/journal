@@ -18,4 +18,4 @@ def reg():
     return render_template("reg.html", title='Reg')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
