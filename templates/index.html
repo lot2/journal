@@ -1,4 +1,37 @@
 {% extends "header.html" %}
 {% block content %}
-<h1>Hi, Flask! This is Index.</h1>
+<div class="hero-unit">
+	<h1>欢迎来到 Journal</h1>
+	<p>Journal是一款记录工作日志的系统。</p>
+	<p>
+		<a class="btn btn-primary btn-large" href="/login">登录</a>
+		<a class="btn btn-large" href="/reg">立即注册</a>
+	</p>
+</div>
+<div class="row">
+	<div class="span4 text-center" style="cursor: pointer;font-family: '黑体'" id="create_id" onmousemove="mouse_over(this)" onmouseout="mouse_out(this)">
+		<h2 class="">新建</h2>
+		<p>每天记录您的工作是个好习惯</p>
+	</div>
+	<div class="span4 text-center" style="cursor: pointer;font-family: '黑体'" id="manage_id" onmousemove="mouse_over(this)" onmouseout="mouse_out(this)">
+		<h2>管理</h2>
+		<p>
+            在这里您可以编辑您的工作日志
+		</p>
+	</div>
+	<div class="span4 text-center" style="cursor: pointer;font-family: '黑体'" id="set_id" onmousemove="mouse_over(this)" onmouseout="mouse_out(this)">
+		<h2>设置</h2>
+		<p>
+			改变您需要的个人设置
+		</p>
+	</div>
+</div>
+    <script>
+        function mouse_over(obj) {
+            $("#"+obj.id).removeClass().addClass("span4 text-center").addClass("text-info");
+        }
+         function mouse_out(obj) {
+            $("#"+obj.id).removeClass().addClass("span4 text-center").addClass("");
+        }
+    </script>
 {% endblock %}
