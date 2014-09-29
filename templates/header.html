@@ -3,18 +3,42 @@
 <head>
 	<title></title>
 	<link rel='stylesheet' href='{{ url_for('static',filename='CSS/bootstrap.css') }}' />
-	<style type="text/css">
-	body {
-		padding-top: 60px;
-		padding-bottom: 40px;
+    <style type="text/css">
+	<!--
+    body {
+            background-attachment: fixed;
+            background-image:url( /static/img/body_pic1.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+    }-->
+    html,body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
 	}
-</style>
+    #html_head {
+            min-height: 4%;
+            height: 4%;
+    }
+    #container {
+			min-height: 96%;
+			height: auto !important;
+			height: 96%;
+	}
+    footer {
+        position: relative;
+        margin-top: -30px;/*等于footer的高度*/
+        height: 30px;
+        clear:both;
+    }
+
+    </style>
 	<link href="{{ url_for('static',filename='CSS/bootstrap-responsive.css') }}" rel="stylesheet">
     <script src="/static/JS/jquery.js"></script>
 	<script src="/static/JS/bootstrap.js"></script>
 </head>
 <body>
-	<div class="navbar navbar-fixed-top">
+	<div id="html_head" class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
