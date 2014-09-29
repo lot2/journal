@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    {% if title %}
+	<title>{{ title }}</title>
+    {% endif %}
 	<link rel='stylesheet' href='{{ url_for('static',filename='CSS/bootstrap.css') }}' />
     <style type="text/css">
 	<!--
@@ -15,6 +17,7 @@
 			height: 100%;
 			margin: 0;
 			padding: 0;
+            width: 100%;
 	}
     #html_head {
             min-height: 4%;
@@ -49,13 +52,13 @@
 				<a class="brand" href="/">Journal</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="active">
+						<li class=" {% if title == 'Home' %}active{% endif %}">
 							<a href="/">首页</a>
 						</li>
-						<li>
+						<li class=" {% if title == 'Login' %}active{% endif %}">
 							<a href="/login">登入</a>
 						</li>
-						<li>
+						<li class=" {% if title == 'Reg' %}active{% endif %}">
 							<a href="/reg">注册</a>
 						</li>
 						<li>
