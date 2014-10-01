@@ -17,5 +17,10 @@ def login():
 def reg():
     return render_template("reg.html", title='Reg')
 
+
+@app.route('/new')
+def new():
+    return render_template("new.html", title='New')
+
 if __name__ == '__main__':
     app.run(debug=True)

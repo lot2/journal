@@ -1,0 +1,102 @@
+{% extends "header.html" %}
+{% block content %}
+    <style>
+        #div_new{
+            background: #ffffff;
+            height:530px;
+            min-height: 530px;
+            width:auto;
+        }
+        #tbl_new{
+            width: 610px;
+            height: 100%;
+            border:0px solid #d4d4d4;
+        }
+        #area_new{
+            height: 98%;
+            border:0px solid;
+            box-shadow: none;
+            margin-top: 14px;
+            resize: none;
+        }
+        #area_head{
+            font-family: 'Microsoft Yahei',tahoma,arial,verdana,sans-serif;
+            font-size: 30px;
+            resize: none;
+            border: none;
+            box-shadow: none;
+            height: 30px;
+            overflow: hidden;
+            width: 350px;
+            color: #656565;
+        }
+        .head{
+            font-weight:400;
+            line-height:23px;
+            position:relative;
+            margin-top:25px;
+            margin-bottom:22px;
+            padding-bottom:10px;
+            color:#656565;
+            border-bottom:1px solid #e9e9e9;
+        }
+        .time{
+            font-weight:200;
+             font-size: 18px;
+        }
+    </style>
+    <script>
+        $(function(){
+            $("#area_new").css("width", $("#tbl_inside").css("width"));
+        });
+    </script>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2"  style="background: none;height:auto">
+      <ul class="nav nav-list">
+          <li class="nav-header" style="font-size: 15px;">日志</li>
+          <li><a href="#">主页</a></li>
+          <li class="active"><a href="#">创建</a></li>
+          <li><a href="#">修改</a></li>
+          <li class="nav-header" style="font-size: 15px;">计划</li>
+          <li><a href="#">创建</a></li>
+          <li><a href="#">修改</a></li>
+      </ul>
+    </div>
+    <div id="div_new" class="span7" style="background: none;">
+      <table id="tbl_new" cellspacing="0" cellpadding="0">
+         <tr align="right">
+             <td height="10%" style="border-bottom: 0px ridge;background: none;">
+                 <a class="btn btn-primary" href="#">保存日志</a>
+		         <a class="btn" href="#">返回</a>
+             </td>
+         </tr>
+         <tr height="82%">
+             <td id="td_area" style="background: #ffffff;">
+                 <table align="center" style="width: 80%" id="tbl_inside">
+                     <tr>
+                         <td style="" >
+                             <h3 class="head"><textarea id="area_head">工作日志</textarea>
+                             <lable class="time">
+                                01 十月
+                            </lable>
+                             </h3>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td style="height: 300px;">
+                             <textarea id="area_new">此页面还需调整 :(</textarea>
+                         </td>
+                     </tr>
+                 </table>
+             </td>
+         </tr>
+         <tr height="8%" ><td  style="background: #ffffff;"></td></tr>
+      </table>
+    </div>
+    <div class="span3" style="background: #ffffff;height:auto">
+        日期控件
+    </div>
+  </div>
+</div>
+{% endblock %}
