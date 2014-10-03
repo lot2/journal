@@ -43,6 +43,10 @@
     <script src="/static/JS/external/jquery/jquery.js"></script>
     <script src="/static/JS/jquery-ui.js"></script>
 	<script src="/static/JS/bootstrap.js"></script>
+    <script>
+        //两边去空格
+        String.prototype.trim = function() { return this.replace(/(^\s*)|(\s*$)/g, ""); }
+    </script>
 </head>
 <body>
 	<div id="html_head" class="navbar navbar-fixed-top">

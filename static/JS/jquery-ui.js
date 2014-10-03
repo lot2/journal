@@ -5487,7 +5487,7 @@ $.extend(Datepicker.prototype, {
 							((!otherMonth || showOtherMonths) && daySettings[2] ? " title='" + daySettings[2].replace(/'/g, "&#39;") + "'" : "") + // cell title
 							(unselectable ? "" : " data-handler='selectDay' data-event='click' data-month='" + printDate.getMonth() + "' data-year='" + printDate.getFullYear() + "'") + ">" + // actions
 							(otherMonth && !showOtherMonths ? "&#xa0;" : // display for other months
-							(unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default" +
+							(unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a id='someday_" +printDate.getFullYear()+"-"+((parseInt(printDate.getMonth())+1)<10?('0'+(parseInt(printDate.getMonth())+1)):(parseInt(printDate.getMonth())+1))+"-"+(printDate.getDate()<10?'0'+printDate.getDate():printDate.getDate())+ "' class='ui-state-default" +
 							(printDate.getTime() === today.getTime() ? " ui-state-highlight" : "") +
 							(printDate.getTime() === currentDate.getTime() ? " ui-state-active" : "") + // highlight selected day
 							(otherMonth ? " ui-priority-secondary" : "") + // distinguish dates from other months
