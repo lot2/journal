@@ -51,7 +51,6 @@
     </style>
     <script>
         $(function(){
-            $("#area_new").css("width", $("#tbl_inside").css("width"));
             var dateInit = new Date();
             var testArray = ['2014-10-01','2014-10-02','2014-10-03','2014-10-04'];//表示已经写过日志的日期数组
             var monthArray = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
@@ -116,27 +115,53 @@
       <table id="tbl_new" cellspacing="0" cellpadding="0">
          <tr align="right">
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
-                 <a class="btn" style="color: #808080" href="javascript:auto_generate()"> 自动生成</a>
-                 <a class="btn btn-primary" href="#">保存日志</a>
-		         <a class="btn" href="#">返回</a>
+                 <a class="btn btn-primary" href="/new">新建日志</a>
              </td>
          </tr>
          <tr height="82%">
              <td id="td_area" style="background: #ffffff;">
-                 <table align="center" style="width: 80%" id="tbl_inside">
-                     <tr>
-                         <td style="" >
-                             <h3 class="head"><textarea id="area_head">工作日志</textarea>
-                             <lable class="time" id="date_id"></lable>
-                             </h3>
-                         </td>
-                     </tr>
-                     <tr>
-                         <td style="height: 300px;">
-                             <textarea id="area_new"></textarea>
-                         </td>
-                     </tr>
-                 </table>
+                 <ul class="cbp_tmtimeline">
+                    <li>
+                        <time class="cbp_tmtime" datetime="2013-04-10 18:30"><span>2014</span> <span>03 十月</span></time>
+                        <div class="cbp_tmicon"></div>
+                        <div class="cbp_tmlabel">
+                            <h4>工作日志</h4>
+                            <p>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime" datetime="2013-04-11T12:04"><span>2014</span> <span>02 十月</span></time>
+                        <div class="cbp_tmicon"></div>
+                        <div class="cbp_tmlabel">
+                            <h4>工作日志</h4>
+                            <p>123.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime" datetime="2013-04-13 05:36"><span>2014</span> <span>01 十月</span></time>
+                        <div class="cbp_tmicon"></div>
+                        <div class="cbp_tmlabel">
+                            <h4>工作日志</h4>
+                            <p>学习Git.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime" datetime="2013-04-15 13:15"><span>2014</span> <span>30 九月</span></time>
+                        <div class="cbp_tmicon"></div>
+                        <div class="cbp_tmlabel">
+                            <h4>工作日志</h4>
+                            <p>学习python</p>
+                        </div>
+                    </li>
+                    <li>
+                        <time class="cbp_tmtime" datetime="2013-04-16 21:30"><span>2014</span> <span>29 九月</span></time>
+                        <div class="cbp_tmicon"></div>
+                        <div class="cbp_tmlabel">
+                            <h4>工作日志</h4>
+                            <p>学习Html5</p>
+                        </div>
+                    </li>
+                </ul>
              </td>
          </tr>
          <tr height="8%" ><td  style="background: #ffffff;"></td></tr>

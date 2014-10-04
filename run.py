@@ -22,5 +22,9 @@ def reg():
 def new():
     return render_template("new.html", title='New')
 
+
+@app.route('/jList')
+def jList():
+    return render_template("jList.html", title='jList')
 if __name__ == '__main__':
     app.run(debug=True)
