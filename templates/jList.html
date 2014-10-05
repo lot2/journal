@@ -75,10 +75,8 @@
                 currentText:'Today',
                 showOtherMonths:true,
                 onSelect: function(selectedDate,inst) {//选择日期后执行的操作
-                    var selectedArray = selectedDate.split("-");
-                    var selectedStr = selectedArray[2] + " " + monthArray[parseInt(selectedArray[1])-1] + "月";
-                    //alert(selectedStr);
-                     $("#date_id").html(selectedStr);
+                    var date_url = "/jManage/"+selectedDate;
+                    window.location.href = date_url;
                 }
             });
             //done_day(testArray);
@@ -104,22 +102,23 @@
       <ul class="nav nav-list">
           <li class="nav-header" style="font-size: 15px;">日志</li>
           <li class="{% if title == "jList" %}active{% endif %}"><a href="/jList">主页</a></li>
-          <li class="{% if title == "New" %}active{% endif %}"><a href="/new">创建</a></li>
-          <li><a href="#">修改</a></li>
+          <li class="{% if title == "New" %}active{% endif %}"><a href="/new">新建</a></li>
+          <li class="{% if title == "jManage" %}active{% endif %}"><a href="/jManage">管理</a></li>
           <li class="nav-header" style="font-size: 15px;">计划</li>
-          <li><a href="#">创建</a></li>
-          <li><a href="#">修改</a></li>
+          <li><a href="#">主页</a></li>
+          <li><a href="#">新建</a></li>
+          <li><a href="#">管理</a></li>
       </ul>
     </div>
     <div id="div_new" class="span7" style="background: none;">
       <table id="tbl_new" cellspacing="0" cellpadding="0">
          <tr align="right">
-             <td height="10%" style="border-bottom: 0px ridge;background: none;">
+             <td height="50px" style="border-bottom: 0px ridge;background: none;">
                  <a class="btn btn-primary" href="/new">新建日志</a>
              </td>
          </tr>
-         <tr height="82%">
-             <td id="td_area" style="background: #ffffff;">
+         <tr>
+             <td id="td_area" style="background: #ffffff;"  height="82%">
                  <ul class="cbp_tmtimeline">
                     <li>
                         <time class="cbp_tmtime" datetime="2013-04-10 18:30"><span>2014</span> <span>03 十月</span></time>
@@ -164,11 +163,10 @@
                 </ul>
              </td>
          </tr>
-         <tr height="8%" ><td  style="background: #ffffff;"></td></tr>
       </table>
     </div>
     <div class="span2" style="background: #ffffff;height:auto">
-        <div id="datepicker" name="123"></div>
+        <div id="datepicker" ></div>
     </div>
   </div>
 </div>

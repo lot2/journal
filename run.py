@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import time
 app = Flask(__name__)
 
 
@@ -26,5 +27,14 @@ def new():
 @app.route('/jList')
 def jList():
     return render_template("jList.html", title='jList')
+
+
+@app.route('/jManage')
+@app.route('/jManage/<date>')
+def jManage(date=None):
+    if date == None:
+        date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    return render_template("jManage.html", title='jManage', datestr=date)
+
 if __name__ == '__main__':
     app.run(debug=True)
