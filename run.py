@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for, escape
 import time
 app = Flask(__name__)
 
@@ -9,9 +9,21 @@ def index():
     return render_template("index.html", title='Home')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
     return render_template("login.html", title='Login')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
+
+
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
 @app.route('/reg')

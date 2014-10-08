@@ -4,8 +4,12 @@
 	<h1>欢迎来到 Journal</h1>
 	<p>Journal是一款记录工作日志的系统。</p>
 	<p>
+        {% if 'username' not in session %}
 		<a class="btn btn-primary btn-large" href="/login">登录</a>
 		<a class="btn btn-large" href="/reg">立即注册</a>
+        {% else %}
+        &nbsp;
+        {% endif %}
 	</p>
 </div>
 <div class="row">

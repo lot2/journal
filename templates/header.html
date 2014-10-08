@@ -64,15 +64,22 @@
 						<li class=" {% if title == 'Home' %}active{% endif %}">
 							<a href="/">首页</a>
 						</li>
+                        {% if 'username' not in session%}
 						<li class=" {% if title == 'Login' %}active{% endif %}">
 							<a href="/login">登入</a>
 						</li>
 						<li class=" {% if title == 'Reg' %}active{% endif %}">
 							<a href="/reg">注册</a>
 						</li>
+                        {% else %}
 						<li>
 							<a href="/logout">登出</a>
-						</li></ul>
+						</li>
+                        <li>
+						    <a>您好，{{ session['username'] }}</a>
+						</li>
+                        {% endif %}
+                    </ul>
 				</div>
 			</div>
 		</div>
