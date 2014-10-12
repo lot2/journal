@@ -20,6 +20,14 @@
 			<div class="controls">
 				<input type="password" class="input-xlarge" id="password-repeat" name="password-repeat"></div>
 		</div>
+        {% if error%}
+            <div class="control-group">
+			<label class="control-label" for="error_msg"></label>
+                <div class="controls">
+                    <label style="color: red">{{ error }}</label>
+                </div>
+		    </div>
+        {% endif %}
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">注册</button>
 		</div>
