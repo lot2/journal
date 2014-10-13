@@ -14,10 +14,28 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return render_template("login.html", title='Login')
+        cx = sqlite3.connect(JDB_NAME)
+        cx.row_factory = sqlite3.Row
+        cu = cx.cursor()
+        sql_user = "select * from sys_users where status = 1"
+        cu.execute(sql_user)
+        flag = 0
+        if request.form['username'].strip() == '' or request.form['password'].strip() == '':
+            error = 'UserName or Password cannot be empty.'
+        else:
+            for t in cu:
+                if request.form['username'] == t['user_name'] and request.form['password'] == t['password']:
+                    flag += 1
+            if flag > 0:
+                session['username'] = request.form['username']
+                cx.close()
+                return redirect(url_for('index'))
+            else:
+                error = 'UserName or Password is invalid.'
+        cx.close()
+    return render_template("login.html", title='Login', error_login=error)
 
 
 @app.route('/logout')
@@ -35,13 +53,13 @@ def reg():
     if request.method == 'POST':
         if request.form['password'] != request.form['password-repeat']:
             error = 'Passwords do not match.'
-            return render_template("reg.html", title='Reg', error=error)
+            return render_template("reg.html", title='Reg', error_reg=error)
         if request.form['username'].strip() == '':
             error = 'UserName cannot be empty.'
-            return render_template("reg.html", title='Reg', error=error)
+            return render_template("reg.html", title='Reg', error_reg=error)
         if request.form['password'] == '' or request.form['password-repeat'] == '':
             error = 'Password cannot be empty.'
-            return render_template("reg.html", title='Reg', error=error)
+            return render_template("reg.html", title='Reg', error_reg=error)
         cx = sqlite3.connect(JDB_NAME)
         cu = cx.cursor()
         user_name = request.form['username']
@@ -52,6 +70,7 @@ def reg():
         cx.commit()
         session['username'] = request.form['username']
         #flash('Register Successfully.')
+        cx.close()
         return redirect(url_for('index'))
     return render_template("reg.html", title='Reg')
 

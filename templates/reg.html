@@ -20,11 +20,11 @@
 			<div class="controls">
 				<input type="password" class="input-xlarge" id="password-repeat" name="password-repeat"></div>
 		</div>
-        {% if error%}
+        {% if error_reg%}
             <div class="control-group">
 			<label class="control-label" for="error_msg"></label>
                 <div class="controls">
-                    <label style="color: red">{{ error }}</label>
+                    <label style="color: red">{{ error_reg }}</label>
                 </div>
 		    </div>
         {% endif %}
