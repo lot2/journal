@@ -1,6 +1,87 @@
 {% extends "header.html" %}
 {% block content %}
-<form class="form-horizontal" method="post">
+    <script>
+    function doReg(){
+        var reg_error = "";
+        $("#reg_error_id").html("");
+        if($("#username").val().trim()=="")
+        {
+            reg_error = "UserName cannot be empty.";
+            $("#reg_error_id").html(reg_error);
+            $("#username").focus();
+            return;
+        }
+        if ($("#password").val().trim()==""||$("#password-repeat").val().trim()=="")
+        {
+            reg_error = "Password cannot be empty."
+            $("#reg_error_id").html(reg_error);
+            if ($("#password").val().trim()=="")
+            {
+                $("#password").focus();
+            }
+            else if ($("#password-repeat").val().trim()=="")
+            {
+                $("#password-repeat").focus();
+            }
+            return;
+        }
+        if ($("#password").val().trim()!=$("#password-repeat").val().trim())
+        {
+            reg_error = "Passwords do not match."
+            $("#reg_error_id").html(reg_error);
+            $("#password").val("");
+            $("#password-repeat").val("");
+            $("#password").focus();
+            return;
+        }
+
+        var pattern1 = /[\d-]+/;
+        var telephone = $("#telephone").val();
+        if (telephone.trim()!=""){
+            if (!pattern1.test(telephone)) {
+                reg_error = "Pls input a valid telephone."
+                $("#reg_error_id").html(reg_error);
+                $("#telephone").val("")
+                $("#telephone").focus();
+                return;
+            }
+        }
+        var pattern = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+        var email = $("#email").val();
+        if (email.trim()!=""){
+            if (!pattern.test(email)) {
+                reg_error = "Pls input a valid email."
+                $("#reg_error_id").html(reg_error);
+                $("#email").val("");
+                $("#email").focus();
+                return;
+            }
+        }
+        var flag = 0;
+        $.ajax({
+             type: "post",
+             url: "/existUser",
+             data: {username:$("#username").val(), rn:Math.random()},
+             dataType: "text",
+             async:false,
+             success: function(returnvalue){
+                            if (returnvalue!="")
+                            {
+                                $("#reg_error_id").html(returnvalue);
+                                flag = 1;
+                            }
+                      }
+         });
+        if (flag == 1)
+        {
+            $("#form1 input").val("");
+            $("#username").focus();
+            return;
+        }
+        $("#form1").submit();
+    }
+    </script>
+<form class="form-horizontal" method="post" id="form1">
 	<FIELDSET>
 		<LEGEND>用户注册</LEGEND>
 		<div class="control-group">
@@ -20,16 +101,24 @@
 			<div class="controls">
 				<input type="password" class="input-xlarge" id="password-repeat" name="password-repeat"></div>
 		</div>
-        {% if error_reg%}
+        <div class="control-group">
+			<label class="control-label" for="telephone">电话</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="telephone" name="telephone"></div>
+		</div>
+        <div class="control-group">
+			<label class="control-label" for="email">邮箱</label>
+			<div class="controls">
+				<input type="text" class="input-xlarge" id="email" name="email"></div>
+		</div>
             <div class="control-group">
 			<label class="control-label" for="error_msg"></label>
                 <div class="controls">
-                    <label style="color: red">{{ error_reg }}</label>
+                    <label style="color: red" id="reg_error_id">&nbsp;</label>
                 </div>
 		    </div>
-        {% endif %}
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">注册</button>
+			<button type="button" onclick="doReg()" class="btn btn-primary">注册</button>
 		</div>
 	</FIELDSET>
 </form>
