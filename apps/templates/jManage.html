@@ -52,12 +52,10 @@
     <script>
         $(function(){
             $("#area_new").css("width", $("#tbl_inside").css("width"));
-            var dateInit = new Date();
-            var testArray = ['2014-10-01','2014-10-02','2014-10-03','2014-10-04'];//表示已经写过日志的日期数组
+            var selectedArray = $("#date_id").html().split("-");
             var monthArray = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
-            var dayStr = dateInit.getDate() < 10 ? '0'+ dateInit.getDate():dateInit.getDate();
-            var dateStr = dayStr+" "+monthArray[parseInt(dateInit.getMonth())]+"月";
-            $("#date_id").html(dateStr);
+            var selectedStr = selectedArray[2] + " " + monthArray[parseInt(selectedArray[1])-1] + "月";
+            $("#date_id").html(selectedStr);
             $("#datepicker").datepicker({
                 inline:true,
                 numberOfMonths:1,//显示几个月
@@ -76,10 +74,8 @@
                 currentText:'Today',
                 showOtherMonths:true,
                 onSelect: function(selectedDate,inst) {//选择日期后执行的操作
-                    var selectedArray = selectedDate.split("-");
-                    var selectedStr = selectedArray[2] + " " + monthArray[parseInt(selectedArray[1])-1] + "月";
-                    //alert(selectedStr);
-                     $("#date_id").html(selectedStr);
+                    var date_url = "/journal/manage/"+selectedDate;
+                    window.location.href = date_url;
                 }
             });
             //done_day(testArray);
@@ -104,9 +100,9 @@
     <div class="span2"  style="background: none;height:auto">
       <ul class="nav nav-list">
           <li class="nav-header" style="font-size: 15px;">日志</li>
-          <li class="{% if title == "jList" %}active{% endif %}"><a href="/jList">主页</a></li>
-          <li class="{% if title == "New" %}active{% endif %}"><a href="/new">新建</a></li>
-          <li class="{% if title == "jManage" %}active{% endif %}"><a href="/jManage">管理</a></li>
+          <li class="{% if title == "jList" %}active{% endif %}"><a href="/journal/list">主页</a></li>
+          <li class="{% if title == "New" %}active{% endif %}"><a href="/journal/new">新建</a></li>
+          <li class="{% if title == "jManage" %}active{% endif %}"><a href="/journal/manage">管理</a></li>
           <li class="nav-header" style="font-size: 15px;">计划</li>
           <li><a href="#">主页</a></li>
           <li><a href="#">新建</a></li>
@@ -128,13 +124,13 @@
                      <tr>
                          <td style="" >
                              <h3 class="head"><textarea id="area_head">工作日志</textarea>
-                             <lable class="time" id="date_id"></lable>
+                             <lable class="time" id="date_id">{% if datestr %}{{ datestr }}{% endif %}</lable>
                              </h3>
                          </td>
                      </tr>
                      <tr>
                          <td style="height: 300px;">
-                             <textarea id="area_new"></textarea>
+                             <textarea id="area_new">此页面表示查看之前的日志，可以修改并保存。</textarea>
                          </td>
                      </tr>
                  </table>
