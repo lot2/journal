@@ -15,7 +15,7 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
-        cx = sqlite3.connect(g.db)
+        cx = g.db
         cx.row_factory = sqlite3.Row
         cu = cx.cursor()
         sql_user = "select * from sys_users where status = 1"

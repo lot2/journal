@@ -1,5 +1,5 @@
-drop table if exists sys_users;
-create table sys_users(
+/*drop table if exists sys_users;*/
+create table if not exists sys_users (
   user_id integer primary key,
   user_group varchar(10),
   user_name varchar(30),
