@@ -63,7 +63,7 @@
 .cbp_tmtimeline > li .cbp_tmlabel {
     right: 5%;
     margin: 0 0 15px 30%;
-    background: #46a4da;
+    background: #0088cc;
     color: #fff;
     padding: 2em;
     font-size: 1em;
@@ -78,7 +78,7 @@
 }
 
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel {
-    background: #46a4da;
+    background: #0088cc;
 }
   
 .cbp_tmtimeline > li .cbp_tmlabel h2 { 
@@ -96,13 +96,13 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-right-color:  #46a4da;
+    border-right-color:  #0088cc;
     border-width: 10px;
     top: 10px;
 }
   
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel:after {
-    border-right-color: #46a4da;
+    border-right-color: #0088cc;
 }
   
 /* The icons */
@@ -120,7 +120,7 @@
     -webkit-font-smoothing: antialiased;
     position: absolute;
     color: #fff;
-    background: #46a4da;
+    background: #0088cc;
     border-radius: 50%;
     box-shadow: 0 0 0 8px #afdcf8;
     text-align: center;
