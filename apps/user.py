@@ -5,6 +5,7 @@ from flask import render_template, request, g, session, redirect, url_for
 import sqlite3
 from apps import app
 
+
 @app.route('/user/reg', methods=['GET', 'POST'])
 def reg():
     error = None
@@ -31,3 +32,19 @@ def reg():
         cu.close()
         return redirect(url_for('index'))
     return render_template("reg.html", title='Reg')
+
+
+@app.route('/user/existUser', methods=['GET', 'POST'])
+def existUser():
+    if request.method == "POST":
+        error = ""
+        cx = g.db
+        cu = cx.cursor()
+        user_name = request.form['username']
+        t = (user_name,)
+        sql = "select 1 from sys_users where user_name=?"
+        cu.execute(sql, t)
+        if cu.fetchone():
+            error = "UserName already exists."
+        cx.close()
+    return error

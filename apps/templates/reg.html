@@ -60,7 +60,7 @@
         var flag = 0;
         $.ajax({
              type: "post",
-             url: "/existUser",
+             url: "/user/existUser",
              data: {username:$("#username").val(), rn:Math.random()},
              dataType: "text",
              async:false,
