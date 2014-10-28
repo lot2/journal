@@ -28,7 +28,7 @@
             color: #656565;
         }
         .table_body{
-            height: 600px;
+            height: auto;
             font-size: 16px;
         }
         .table_body tr td{
@@ -49,6 +49,10 @@
 
         .new_task a {
             border-bottom: 1px solid #0088cc;
+            text-decoration: none;
+            cursor:pointer;
+        }
+        .table_body a{
             text-decoration: none;
             cursor:pointer;
         }
@@ -130,6 +134,71 @@
             var str = "今日完成：\n\r\r明日任务：\n\r\r心得体会：\n\r...";
             $("#area_new").html(str);
         }
+        function doTask(num) {
+            $("[id=task_body_"+num+"]").toggle();
+        }
+        function doNew(){
+            var max_num = $("[id^='task_id_']").length+1;
+            var str = "<tr>"
+                +"    <td colspan=\"2\" style=\"font-size: 24px;height: 50px;\">"
+                +"        <a href=\"javascript:doTask(\'"+max_num+"\')\" id=\"task_id_"+max_num+"\">"
+                +"            任务"+max_num
+                +"        </a>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        具体事项"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        Issue编号"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        花费时间"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        完成情况"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        存在问题"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        解决措施"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr>";
+            $("#total_tasks").append(str);
+        }
     </script>
 <div class="container-fluid">
   <div class="row-fluid">
@@ -146,7 +215,7 @@
       </ul>
     </div>
     <div id="div_new" class="span7" style="background: none;">
-      <table id="tbl_new" cellspacing="0" cellpadding="0">
+      <table id="tbl_new" cellspacing="0" cellpadding="0" style="vertical-align: top;height: auto;">
          <tr align="right">
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
                  <a class="btn" style="color: #808080" href="javascript:auto_generate()"> 自动生成</a>
@@ -154,9 +223,9 @@
 		         <a class="btn" href="#">返回</a>
              </td>
          </tr>
-         <tr height="82%">
-             <td id="td_area" style="">
-                 <table align="center" style="width: 100%;height: 100%" id="tbl_inside">
+         <tr>
+             <td id="td_area" style="vertical-align: top;">
+                 <table align="center" style="width: 100%;" id="tbl_inside">
                      <tr>
                          <td style="height: 100px">
                              <h3 class="head"><textarea id="area_head">工作日志</textarea>
@@ -165,33 +234,33 @@
                          </td>
                      </tr>
                      <tr>
-                         <td style="height: auto;">
+                         <td>
                              <div id="div_body">
-                                 <table class="table_body">
+                                 <table class="table_body" id="total_tasks">
                                      <tr>
-                                         <td colspan="2" style="font-size: 24px;height: 50px;">任务一</td>
+                                         <td colspan="2" style="font-size: 24px;height: 50px;"><a href="javascript:doTask('1');" id="task_id_1">任务1</a></td>
                                      </tr>
-                                     <tr valign="top">
+                                     <tr id="task_body_1">
                                          <td>具体事项</td>
                                          <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
-                                     <tr>
+                                     <tr id="task_body_1">
                                          <td>Issue编号</td>
                                          <td><input type="text" class="input-xxlarge"></td>
                                      </tr>
-                                     <tr>
+                                     <tr id="task_body_1">
                                          <td>花费时间</td>
                                          <td><input type="text" class="input-xxlarge"></td>
                                      </tr>
-                                     <tr>
+                                     <tr id="task_body_1">
                                          <td>完成情况</td>
                                          <td><input type="text" class="input-xxlarge"></td>
                                      </tr>
-                                     <tr>
+                                     <tr id="task_body_1">
                                          <td>存在问题</td>
                                          <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
-                                     <tr>
+                                     <tr id="task_body_1">
                                          <td>解决措施</td>
                                          <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
@@ -201,7 +270,7 @@
                                  <table class="new_task">
                                      <tr>
                                          <td>
-                                             <a>新任务</a>
+                                             <a href="javascript:doNew();">新任务</a>
                                          </td>
                                      </tr>
                                  </table>
