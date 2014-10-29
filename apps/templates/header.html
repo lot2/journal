@@ -35,7 +35,88 @@
         height: 20px;
         clear:both;
     }
+    #div_new{
+            background: #ffffff;
+            height:580px;
+            min-height: 580px;
+            width:auto;
+        }
+        #tbl_new{
+            width: 700px;
+            height: 100%;
+            border:0px solid #d4d4d4;
+        }
+{#        #area_new{#}
+{#            height: 98%;#}
+{#            border:0px solid;#}
+{#            box-shadow: none;#}
+{#            margin-top: 14px;#}
+{#            resize: none;#}
+{#            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;#}
+{#            font-size:18px;#}
+{#            font-weight: bold;#}
+{#            color: #656565;#}
+{#        }#}
+        #div_body{
+            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;
+            color: #656565;
+        }
+        .table_body{
+            height: auto;
+            font-size: 16px;
+        }
+        .table_body tr td{
+            vertical-align:top;
+        }
+        .table_body textarea{
+            resize: none;
+        }
+        .new_task{
+            border: 0px solid #0088cc;
+            height: 50px;
+            width: 100px;
+            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;
+            color: #656565;
+            font-size: 20px;
+            text-align: left;
+        }
 
+        .new_task a {
+            border-bottom: 1px solid #0088cc;
+            text-decoration: none;
+            cursor:pointer;
+        }
+        .table_body a{
+            text-decoration: none;
+            cursor:pointer;
+        }
+
+        #area_head{
+            font-family: 'Microsoft Yahei',tahoma,arial,verdana,sans-serif;
+            font-size: 35px;
+            resize: none;
+            border: none;
+            box-shadow: none;
+            height: 30px;
+            overflow: hidden;
+            width: 400px;
+            color: #656565;
+            background:transparent;
+        }
+        .head{
+            font-weight:400;
+            line-height:23px;
+            position:relative;
+            /*margin-top:25px;
+            margin-bottom:22px;*/
+            padding-bottom:10px;
+            color:#656565;
+            //border-bottom:1px solid #ffffff;
+        }
+        .time{
+            font-weight:200;
+            font-size: 18px;
+        }
     </style>
 	<link href="{{ url_for('static',filename='CSS/bootstrap-responsive.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename='CSS/jquery-ui.css') }}">

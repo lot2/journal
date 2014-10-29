@@ -1,90 +1,5 @@
 {% extends "header.html" %}
 {% block content %}
-    <style>
-        #div_new{
-            background: #ffffff;
-            height:580px;
-            min-height: 580px;
-            width:auto;
-        }
-        #tbl_new{
-            width: 700px;
-            height: 100%;
-            border:0px solid #d4d4d4;
-        }
-{#        #area_new{#}
-{#            height: 98%;#}
-{#            border:0px solid;#}
-{#            box-shadow: none;#}
-{#            margin-top: 14px;#}
-{#            resize: none;#}
-{#            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;#}
-{#            font-size:18px;#}
-{#            font-weight: bold;#}
-{#            color: #656565;#}
-{#        }#}
-        #div_body{
-            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;
-            color: #656565;
-        }
-        .table_body{
-            height: auto;
-            font-size: 16px;
-        }
-        .table_body tr td{
-            vertical-align:top;
-        }
-        .table_body textarea{
-            resize: none;
-        }
-        .new_task{
-            border: 0px solid #0088cc;
-            height: 50px;
-            width: 100px;
-            font-family: "Microsoft YaHei",'微软雅黑',Simsun,arial,STXihei,sans-serif;
-            color: #656565;
-            font-size: 20px;
-            text-align: left;
-        }
-
-        .new_task a {
-            border-bottom: 1px solid #0088cc;
-            text-decoration: none;
-            cursor:pointer;
-        }
-        .table_body a{
-            text-decoration: none;
-            cursor:pointer;
-        }
-
-        #area_head{
-            font-family: 'Microsoft Yahei',tahoma,arial,verdana,sans-serif;
-            font-size: 35px;
-            resize: none;
-            border: none;
-            box-shadow: none;
-            height: 30px;
-            overflow: hidden;
-            width: 400px;
-            color: #656565;
-            background:transparent;
-        }
-        .head{
-            font-weight:400;
-            line-height:23px;
-            position:relative;
-            /*margin-top:25px;
-            margin-bottom:22px;*/
-            padding-bottom:10px;
-            color:#656565;
-            //border-bottom:1px solid #ffffff;
-        }
-        .time{
-            font-weight:200;
-            font-size: 18px;
-        }
-
-    </style>
     <script>
         $(function(){
             $("#area_new").css("width", $("#tbl_inside").css("width"));
@@ -211,13 +126,13 @@
     </script>
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span2"  style="background: none;height:auto">
+    <div class="span2"  style="background: none;height:auto;min-height:700px;">
       <ul class="nav nav-list">
-          <li class="nav-header" style="font-size: 15px;">日志</li>
+          <li class="nav-header" style="font-size: 16px;">日志</li>
           <li class="{% if title == "jList" %}active{% endif %}"><a href="/journal/list">主页</a></li>
           <li class="{% if title == "New" %}active{% endif %}"><a href="/journal/new">新建</a></li>
           <li class="{% if title == "jManage" %}active{% endif %}"><a href="/journal/manage">管理</a></li>
-          <li class="nav-header" style="font-size: 15px;">计划</li>
+          <li class="nav-header" style="font-size: 16px;">计划</li>
           <li><a href="#">主页</a></li>
           <li><a href="#">新建</a></li>
           <li><a href="#">管理</a></li>
@@ -229,7 +144,7 @@
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
 {#                 <a class="btn" style="color: #808080" href="javascript:auto_generate()"> 自动生成</a>#}
                  <a class="btn btn-primary" href="#">保存日志</a>
-		         <a class="btn" href="#">返回</a>
+		         <a class="btn" href="/journal/list">返回</a>
              </td>
          </tr>
          <tr>
@@ -237,7 +152,7 @@
                  <table align="center" style="width: 100%;" id="tbl_inside">
                      <tr>
                          <td style="height: 100px">
-                             <h3 class="head"><textarea id="area_head">工作日志</textarea>
+                             <h3 class="head"><textarea id="area_head">新建日志</textarea>
                              <lable class="time" id="date_id"></lable>
                              </h3>
                          </td>
