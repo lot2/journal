@@ -1,6 +1,49 @@
 {% extends "header.html" %}
 {% block content %}
-<form class="form-horizontal" method="post">
+    <script>
+    function doLogin(){
+        var log_error = "";
+        $("#login_error_id").html("");
+        if($("#username").val().trim()=="")
+        {
+            log_error = "UserName cannot be empty.";
+            $("#login_error_id").html(log_error);
+            $("#username").focus();
+            return;
+        }
+        if($("#password").val().trim()=="")
+        {
+            log_error = "Password cannot be empty.";
+            $("#login_error_id").html(log_error);
+            $("#password").focus();
+            return;
+        }
+
+        var flag = 0;
+        $.ajax({
+             type: "post",
+             url: "/system/textLogin",
+             data: {username:$("#username").val(),password:$("#password").val(),rn:Math.random()},
+             dataType: "text",
+             async:false,
+             success: function(returnvalue){
+                            if (returnvalue!="")
+                            {
+                                $("#login_error_id").html(returnvalue);
+                                flag = 1;
+                            }
+                      }
+         });
+        if (flag == 1)
+        {
+            $("#form2 input").val("");
+            $("#username").focus();
+            return;
+        }
+        $("#form2").submit();
+    }
+    </script>
+<form class="form-horizontal" method="post" id="form2">
 	<fieldset>
 		<legend>用户登入</legend>
 		<div class="control-group">
@@ -13,16 +56,14 @@
 			<div class="controls">
 				<input type="password" class="input-xlarge" id="password" name="password"></div>
 		</div>
-        {% if error_login%}
             <div class="control-group">
 			<label class="control-label" for="error_msg"></label>
                 <div class="controls">
-                    <label style="color: red">{{ error_login }}</label>
+                     <label style="color: red" id="login_error_id">&nbsp;</label>
                 </div>
 		    </div>
-        {% endif %}
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">登入</button>
+			<button type="button" onclick="doLogin()" class="btn btn-primary">登入</button>
 		</div>
 	</fieldset>
 </form>

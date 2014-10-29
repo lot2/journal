@@ -13,29 +13,28 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return render_template("login.html", title='Login')
+
+
+@app.route('/system/textLogin', methods=['GET', 'POST'])
+def textLogin():
+    if request.method == 'POST':
+        error = ""
         cx = g.db
         cx.row_factory = sqlite3.Row
         cu = cx.cursor()
         sql_user = "select * from sys_users where status = 1"
         cu.execute(sql_user)
-        flag = 0
-        if request.form['username'].strip() == '' or request.form['password'].strip() == '':
-            error = 'UserName or Password cannot be empty.'
-        else:
-            for t in cu:
-                if request.form['username'] == t['user_name'] and request.form['password'] == t['password']:
-                    flag += 1
-            if flag > 0:
-                session['username'] = request.form['username']
-                cx.close()
-                return redirect(url_for('index'))
+        for t in cu:
+            if request.form['username'] == t['user_name'] and request.form['password'] == t['password']:
+                error = ""
             else:
-                error = 'UserName or Password is invalid.'
+                error = "Username or Password is wrong"
         cx.close()
-    return render_template("login.html", title='Login', error_login=error)
-
+    return error
 
 @app.route('/logout')
 def logout():
