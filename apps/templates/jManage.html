@@ -45,6 +45,79 @@
                 }
             });
         }
+        function doTask(num) {
+            $("[id=task_body_"+num+"]").toggle();
+        }
+        function doDel(num){
+            $("#t_body_"+num).remove();
+            $("#del_task_"+(num-1)).show();
+        }
+        function doNew(){
+            var max_num = $("[id^='task_id_']").length+1;
+            var str = "<tbody id=\"t_body_"+max_num+"\"><tr>"
+                +"    <td colspan=\"2\" style=\"font-size: 24px;height: 50px;\">"
+                +"        <a href=\"javascript:doTask(\'"+max_num+"\')\" id=\"task_id_"+max_num+"\">"
+                +"            任务"+max_num
+                +"        </a>&nbsp;&nbsp;<a id=\"del_task_"+max_num+"\" style=\"font-size: 24px;height: 50px;\" title=\"删除\" onclick=\"doDel("+max_num+")\">×</a>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        具体事项"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        Issue编号"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        花费时间"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        完成情况"
+                +"    </td>"
+                +"    <td>"
+                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        存在问题"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        解决措施"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
+                +"        </textarea>"
+                +"    </td>"
+                +"</tr></tobdy>";
+            $("#total_tasks").append(str);
+            for(var i=1;i<max_num;i++){
+                $("[id='task_body_"+i+"']").hide();
+                $("[id='del_task_"+i+"']").hide();
+            }
+        }
     </script>
 <div class="container-fluid">
   <div class="row-fluid">
