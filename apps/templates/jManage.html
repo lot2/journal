@@ -33,18 +33,7 @@
                     window.location.href = date_url;
                 }
             });
-            //done_day(testArray);
         });
-        function done_day(testArray){
-            $.each($("[id^='someday_']"),function(k,v){
-                for (var i= 0;i<testArray.length;i++){
-                    if (v.id.substr(8, v.id.length-1)==testArray[i])
-                    {
-                        v.style.background="url('/static/img/done.png')";
-                    }
-                }
-            });
-        }
         function doTask(num) {
             $("[id=task_body_"+num+"]").toggle();
         }
@@ -137,7 +126,6 @@
       <table id="tbl_new" cellspacing="0" cellpadding="0" style="vertical-align: top;height: auto;">
          <tr align="right">
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
-{#                 <a class="btn" style="color: #808080" href="javascript:auto_generate()"> 自动生成</a>#}
                  <a class="btn btn-primary" href="#">修改日志</a>
 		         <a class="btn" href="/journal/list">返回</a>
              </td>

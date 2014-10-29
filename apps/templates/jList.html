@@ -79,22 +79,7 @@
                     window.location.href = date_url;
                 }
             });
-            //done_day(testArray);
         });
-        function done_day(testArray){
-            $.each($("[id^='someday_']"),function(k,v){
-                for (var i= 0;i<testArray.length;i++){
-                    if (v.id.substr(8, v.id.length-1)==testArray[i])
-                    {
-                        v.style.background="url('/static/img/done.png')";
-                    }
-                }
-            });
-        }
-        function auto_generate(){
-            var str = "今日完成：\n\r\r明日任务：\n\r\r心得体会：\n\r...";
-            $("#area_new").html(str);
-        }
     </script>
 <div class="container-fluid">
   <div class="row-fluid">
