@@ -24,15 +24,14 @@ def textLogin():
     if request.method == 'POST':
         error = ""
         cx = g.db
-        cx.row_factory = sqlite3.Row
         cu = cx.cursor()
-        sql_user = "select * from sys_users where status = 1"
-        cu.execute(sql_user)
-        for t in cu:
-            if request.form['username'] == t['user_name'] and request.form['password'] == t['password']:
-                error = ""
-            else:
-                error = "Username or Password is wrong"
+        user_name = request.form['username']
+        password = request.form['password']
+        t = (user_name, password,)
+        sql_user = "select 1 from sys_users where status = 1 and user_name=? and password=?"
+        cu.execute(sql_user, t)
+        if not cu.fetchone():
+            error = "UserName and Password is wrong."
         cx.close()
     return error
 

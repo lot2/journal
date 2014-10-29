@@ -36,14 +36,21 @@
          });
         if (flag == 1)
         {
-            $("#form2 input").val("");
+            $("#form1 input").val("");
             $("#username").focus();
             return;
         }
-        $("#form2").submit();
+        $("#form1").submit();
     }
+    $(function(){
+        $("#password").keydown(function(event){
+           if(event.keyCode==13){
+              doLogin();
+           }
+        });
+    });
     </script>
-<form class="form-horizontal" method="post" id="form2">
+<form class="form-horizontal" method="post" id="form1">
 	<fieldset>
 		<legend>用户登入</legend>
 		<div class="control-group">
