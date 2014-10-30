@@ -20,16 +20,19 @@ def reg():
             error = 'Password cannot be empty.'
             return render_template("reg.html", title='Reg', error_reg=error)
         #cx = sqlite3.connect(g.db)
-        cu = g.db
+        cx = g.db
+        cu = cx.cursor()
         user_name = request.form['username']
         password = request.form['password']
-        for t in [(user_name, password)]:
-            sql_ins = "insert into sys_users(user_name,password) values (%s,%s)"
+        telephone = request.form['telephone']
+        email = request.form['email']
+        for t in [(user_name, password, telephone, email)]:
+            sql_ins = "insert into sys_users(user_name,password,telephone,email) values (%s,%s,%s,%s)"
             cu.execute(sql_ins, t)
-        cu.commit()
+        cx.commit()
         session['username'] = request.form['username']
         #flash('Register Successfully.')
-        cu.close()
+        #cu.close()
         return redirect(url_for('index'))
     return render_template("reg.html", title='Reg')
 
