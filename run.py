@@ -3,7 +3,7 @@
 
 from flask import g
 from apps import app
-import sqlite3
+import MySQLdb
 import os
 from contextlib import closing
 
@@ -12,18 +12,19 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.debug = True
 
 base_path = os.path.abspath(os.path.dirname(__file__))
-JDB_NAME = os.path.join(base_path, 'JDB.db')
+#JDB_NAME = os.path.join(base_path, 'JDB.db')
 
 
 def connect_db():
-    return sqlite3.connect(JDB_NAME)
+    return MySQLdb.connect(host='127.0.0.1', user='root', passwd='1qaz@WSX', db='journal')
 
 
 def init_db():
     with closing(connect_db()) as db:
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-            print f.read()
+        for line in app.open_resource('schema.sql', mode='r'):
+            db.cursor().execute(line)
+        # with app.open_resource('schema.sql', mode='r') as f:
+        #     db.cursor().executescript(f.read())open('schema.sql', 'r')
         db.commit()
 
 

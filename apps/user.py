@@ -23,8 +23,8 @@ def reg():
         cu = g.db
         user_name = request.form['username']
         password = request.form['password']
-        for t in [(user_name, password), ]:
-            sql_ins = "insert into sys_users(user_name,password) values (?,?)"
+        for t in [(user_name, password)]:
+            sql_ins = "insert into sys_users(user_name,password) values (%s,%s)"
             cu.execute(sql_ins, t)
         cu.commit()
         session['username'] = request.form['username']
@@ -41,8 +41,8 @@ def existUser():
         cx = g.db
         cu = cx.cursor()
         user_name = request.form['username']
-        t = (user_name,)
-        sql = "select 1 from sys_users where user_name=?"
+        t = (user_name)
+        sql = "select 1 from sys_users where user_name=%s"
         cu.execute(sql, t)
         if cu.fetchone():
             error = "UserName already exists."

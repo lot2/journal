@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 from flask import render_template, request, g, session, redirect, url_for
-import sqlite3
+import MySQLdb
 from apps import app
 
 
@@ -27,12 +27,11 @@ def textLogin():
         cu = cx.cursor()
         user_name = request.form['username']
         password = request.form['password']
-        t = (user_name, password,)
-        sql_user = "select 1 from sys_users where status = 1 and user_name=? and password=?"
-        cu.execute(sql_user, t)
-        if not cu.fetchone():
+        t = (user_name, password)
+        sql_user = "select 1 from journal.sys_users where status = 1 and user_name=%s and password=%s"
+        count = cu.execute(sql_user, t)
+        if int(count) == 0:
             error = "UserName and Password is wrong."
-        cx.close()
     return error
 
 @app.route('/logout')
