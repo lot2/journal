@@ -7,6 +7,9 @@
             var testArray = ['2014-10-01','2014-10-02','2014-10-03','2014-10-04'];//表示已经写过日志的日期数组
             var monthArray = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
             var dayStr = dateInit.getDate() < 10 ? '0'+ dateInit.getDate():dateInit.getDate();
+            var dayMonth = parseInt(dateInit.getMonth())+1 < 10 ? '0'+ (parseInt(dateInit.getMonth())+1):(parseInt(dateInit.getMonth())+1);
+            var days = dateInit.getFullYear()+"-"+dayMonth+"-"+dayStr;
+             $("#selected_date_id").val(days);
             var dateStr = dayStr+" "+monthArray[parseInt(dateInit.getMonth())]+"月";
             $("#date_id").html(dateStr);
             $("#datepicker").datepicker({
@@ -28,6 +31,7 @@
                 showOtherMonths:true,
                 onSelect: function(selectedDate,inst) {//选择日期后执行的操作
                     var selectedArray = selectedDate.split("-");
+                    $("#selected_date_id").val(selectedDate);
                     var selectedStr = selectedArray[2] + " " + monthArray[parseInt(selectedArray[1])-1] + "月";
                     //alert(selectedStr);
                      $("#date_id").html(selectedStr);
@@ -55,8 +59,7 @@
                 +"        具体事项"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"content_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -64,7 +67,7 @@
                 +"        Issue编号"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"issue_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -72,7 +75,7 @@
                 +"        花费时间"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"spend_time_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -80,7 +83,7 @@
                 +"        完成情况"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"schedule_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -88,8 +91,7 @@
                 +"        存在问题"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"problem_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -97,16 +99,55 @@
                 +"        解决措施"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"solution_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
-                +"</tr></tobdy>";
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        备注"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea id=\"remark_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"</tobdy>";
             $("#total_tasks").append(str);
             for(var i=1;i<max_num;i++){
                 $("[id='task_body_"+i+"']").hide();
                 $("[id='del_task_"+i+"']").hide();
             }
-
+        }
+        function doSave(){
+            var taskArray = "";
+            var taskNum = $("[id^='task_id_']").length;
+            for (var i=1;i<taskNum+1;i++){
+                var content = $("#content_"+i).html();
+                var issue = $("#issue_"+i).val();
+                var spend_time = $("#spend_time_"+i).val();
+                var schedule = $("#schedule_"+i).val();
+                var problem = $("#problem_"+i).html();
+                var solution = $("#solution_"+i).html();
+                var remark = $("#remark_"+i).html();
+                var str = "("+content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark+")";
+                //var oneArray = (content, issue, spend_time, schedule, problem, solution, remark);
+                taskArray = taskArray + str + ","
+            }
+            var subStr = taskArray.substr(0,taskArray.length-1);
+            var journal_date = $("#selected_date_id").val();
+            var user_id = $("#user_id").val();
+            var totalStr = "("+ journal_date + "," + user_id + ",)";
+            alert(totalStr);
+            alert(subStr);
+{#            $.ajax({#}
+{#             type: "post",#}
+{#             url: "/journal/new/doSave",#}
+{#             data: {totalStr:totalStr,subStr:subStr,rn:Math.random()},#}
+{#             dataType: "text",#}
+{#             async:false,#}
+{#             success: function(returnvalue){#}
+{##}
+{#                      }#}
+{#             });#}
         }
     </script>
 <div class="container-fluid">
@@ -127,7 +168,7 @@
       <table id="tbl_new" cellspacing="0" cellpadding="0" style="vertical-align: top;height: auto;">
          <tr align="right">
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
-                 <a class="btn btn-primary" href="#">保存日志</a>
+                 <a class="btn btn-primary" onclick="doSave()">保存日志</a>
 		         <a class="btn" href="/journal/list">返回</a>
              </td>
          </tr>
@@ -138,6 +179,7 @@
                          <td style="height: 100px">
                              <h3 class="head"><textarea id="area_head">新建日志</textarea>
                              <lable class="time" id="date_id"></lable>
+                             <input type="hidden" id="selected_date_id">
                              </h3>
                          </td>
                      </tr>
@@ -150,27 +192,31 @@
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>具体事项</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="content_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>Issue编号</td>
-                                         <td><input type="text" class="input-xxlarge"></td>
+                                         <td><input id="issue_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>花费时间</td>
-                                         <td><input type="text" class="input-xxlarge"></td>
+                                         <td><input id="spend_time_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>完成情况</td>
-                                         <td><input type="text" class="input-xxlarge"></td>
+                                         <td><input id="schedule_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>存在问题</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="problem_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>解决措施</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="solution_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                     </tr>
+                                     <tr id="task_body_1">
+                                         <td>备注</td>
+                                         <td><textarea id="remark_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                  </table>
                              </div>

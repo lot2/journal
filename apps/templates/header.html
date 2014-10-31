@@ -161,6 +161,7 @@
 						    <a>您好，{{ session['username'] }}</a>
 						</li>
                         {% endif %}
+                        <input type="hidden" id="user_id" value="{{ session['username'] }}">
                     </ul>
 				</div>
 			</div>

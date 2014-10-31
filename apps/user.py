@@ -44,10 +44,9 @@ def existUser():
         cx = g.db
         cu = cx.cursor()
         user_name = request.form['username']
-        t = (user_name)
+        t = (user_name,)
         sql = "select 1 from sys_users where user_name=%s"
-        cu.execute(sql, t)
-        if cu.fetchone():
+        count = cu.execute(sql, t)
+        if int(count) == 1:
             error = "UserName already exists."
-        cx.close()
     return error

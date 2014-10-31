@@ -5,7 +5,7 @@ from flask import g
 from apps import app
 import MySQLdb
 import os
-from contextlib import closing
+#from contextlib import closing
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
@@ -16,7 +16,7 @@ base_path = os.path.abspath(os.path.dirname(__file__))
 
 
 def connect_db():
-    return MySQLdb.connect(host='127.0.0.1', user='root', passwd='1qaz@WSX', db='journal')
+    return MySQLdb.connect(host='127.0.0.1', user='root', passwd='1qaz@WSX', db='journal', charset='utf8')
 
 
 # def init_db():
