@@ -1,5 +1,11 @@
 {% extends "header.html" %}
 {% block content %}
+    {% if 'username' not in session %}
+    <script>
+        alert("长时间未操作，请重新登录!");
+        window.location.href = "/index";
+    </script>
+    {% endif %}
     <script>
         $(function(){
             $("#area_new").css("width", $("#tbl_inside").css("width"));
@@ -59,7 +65,7 @@
                 +"        具体事项"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea id=\"content_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"        <textarea id=\"content_"+max_num+"\" name=\"content_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -67,7 +73,7 @@
                 +"        Issue编号"
                 +"    </td>"
                 +"    <td>"
-                +"        <input id=\"issue_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"issue_"+max_num+"\" name=\"issue_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -75,7 +81,7 @@
                 +"        花费时间"
                 +"    </td>"
                 +"    <td>"
-                +"        <input id=\"spend_time_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"spend_time_"+max_num+"\" name=\"spend_time_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -83,7 +89,7 @@
                 +"        完成情况"
                 +"    </td>"
                 +"    <td>"
-                +"        <input id=\"schedule_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"schedule_"+max_num+"\" name=\"schedule_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -91,7 +97,7 @@
                 +"        存在问题"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea id=\"problem_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"        <textarea id=\"problem_"+max_num+"\" name=\"problem_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -99,7 +105,7 @@
                 +"        解决措施"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea id=\"solution_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"        <textarea id=\"solution_"+max_num+"\" name=\"solution_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -107,7 +113,7 @@
                 +"        备注"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea id=\"remark_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"        <textarea id=\"remark_"+max_num+"\" name=\"remark_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"</tobdy>";
@@ -118,36 +124,75 @@
             }
         }
         function doSave(){
+            if ("{{session["username"] }}"==""){
+                alert("长时间未操作，请重新登录!");
+                window.location.href = "/index";
+                return;
+            }
             var taskArray = "";
             var taskNum = $("[id^='task_id_']").length;
             for (var i=1;i<taskNum+1;i++){
-                var content = $("#content_"+i).html();
+                var content = $("#content_"+i).val();
                 var issue = $("#issue_"+i).val();
                 var spend_time = $("#spend_time_"+i).val();
                 var schedule = $("#schedule_"+i).val();
-                var problem = $("#problem_"+i).html();
-                var solution = $("#solution_"+i).html();
-                var remark = $("#remark_"+i).html();
-                var str = "("+content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark+")";
+                var problem = $("#problem_"+i).val();
+                var solution = $("#solution_"+i).val();
+                var remark = $("#remark_"+i).val();
+                var str = content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark;
                 //var oneArray = (content, issue, spend_time, schedule, problem, solution, remark);
-                taskArray = taskArray + str + ","
+                taskArray = taskArray + str + ";"
             }
             var subStr = taskArray.substr(0,taskArray.length-1);
             var journal_date = $("#selected_date_id").val();
             var user_id = $("#user_id").val();
-            var totalStr = "("+ journal_date + "," + user_id + ",)";
-            alert(totalStr);
-            alert(subStr);
-{#            $.ajax({#}
-{#             type: "post",#}
-{#             url: "/journal/new/doSave",#}
-{#             data: {totalStr:totalStr,subStr:subStr,rn:Math.random()},#}
-{#             dataType: "text",#}
-{#             async:false,#}
-{#             success: function(returnvalue){#}
-{##}
-{#                      }#}
-{#             });#}
+            var totalStr = journal_date;
+            alert(1);
+            var jsonObj = getFormJson();
+            jsonObj.totalStr = totalStr;
+            jsonObj.subStr = taskNum;
+            $.ajax({
+             type: "post",
+             url: "/journal/new/doSave",
+             data: jsonObj,//{totalStr:totalStr,subStr:taskNum,rn:Math.random()},//$("#ajax_form").serialize(),
+             dataType: "text",
+             async:false,
+             success: function(returnvalue){
+                        if (parseInt(returnvalue)==1)
+                        {
+                            alert("保存成功！");
+                            window.location.href = "/journal/manage/"+journal_date;
+                        }
+                        else
+                        {
+                            alert("保存失败！");
+                            return;
+                        }
+                      }
+             });
+        }
+        function printObject(obj){
+            //obj = {"cid":"C0","ctext":"区县"};
+            var temp = "";
+            for(var i in obj){//用javascript的for/in循环遍历对象的属性
+            temp += i+":"+obj[i]+"\n";
+            }
+            alert(temp);//结果：cid:C0 \n ctext:区县
+            }
+        function getFormJson(frm) {
+              var o = {};
+              var a = $("form").serializeArray();
+              $.each(a, function (i,field) {
+               if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                 o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+               } else {
+                o[this.name] = this.value || '';
+               }
+              });
+              return o;
         }
     </script>
 <div class="container-fluid">
@@ -179,46 +224,48 @@
                          <td style="height: 100px">
                              <h3 class="head"><textarea id="area_head">新建日志</textarea>
                              <lable class="time" id="date_id"></lable>
-                             <input type="hidden" id="selected_date_id">
+                             <input type="hidden" id="selected_date_id"><input type="hidden" id="results">
                              </h3>
                          </td>
                      </tr>
                      <tr>
                          <td>
                              <div id="div_body">
+                                 <form id="ajax_form" name="ajax_form">
                                  <table class="table_body" id="total_tasks">
                                      <tr id="task_body_1_head">
                                          <td colspan="2" style="font-size: 24px;height: 50px;"><a href="javascript:doTask('1');" id="task_id_1">任务1</a></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>具体事项</td>
-                                         <td><textarea id="content_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="content_1" name="content_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>Issue编号</td>
-                                         <td><input id="issue_1" type="text" class="input-xxlarge"></td>
+                                         <td><input id="issue_1" name="issue_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>花费时间</td>
-                                         <td><input id="spend_time_1" type="text" class="input-xxlarge"></td>
+                                         <td><input id="spend_time_1" name="spend_time_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>完成情况</td>
-                                         <td><input id="schedule_1" type="text" class="input-xxlarge"></td>
+                                         <td><input id="schedule_1" name="schedule_1" type="text" class="input-xxlarge"></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>存在问题</td>
-                                         <td><textarea id="problem_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="problem_1" name="problem_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>解决措施</td>
-                                         <td><textarea id="solution_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="solution_1" name="solution_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                      <tr id="task_body_1">
                                          <td>备注</td>
-                                         <td><textarea id="remark_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
+                                         <td><textarea id="remark_1" name="remark_1" class="input-xxlarge" style="height: 100px;"></textarea></td>
                                      </tr>
                                  </table>
+                                 </form>
                              </div>
                              <div style="height: 60px">
                                  <table class="new_task">

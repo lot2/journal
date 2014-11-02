@@ -4,6 +4,7 @@
 from flask import g
 from apps import app
 import MySQLdb
+import MySQLdb.cursors
 import os
 #from contextlib import closing
 
@@ -16,7 +17,8 @@ base_path = os.path.abspath(os.path.dirname(__file__))
 
 
 def connect_db():
-    return MySQLdb.connect(host='127.0.0.1', user='root', passwd='1qaz@WSX', db='journal', charset='utf8')
+    return MySQLdb.connect(host='127.0.0.1', user='root', passwd='1qaz@WSX', db='journal', charset='utf8',
+                           cursorclass=MySQLdb.cursors.DictCursor)
 
 
 # def init_db():

@@ -17,7 +17,7 @@ create table if not exists journal.journal_new (
   user_id integer,
   status varchar(2) default '1',
   create_date timestamp not null default current_timestamp,
-  last_update_date timestamp not null default current_timestamp,
+  last_update_date timestamp not null default current_timestamp
 ) DEFAULT CHARSET=utf8;
 
 create table if not exists journal.journal_new_detail (
