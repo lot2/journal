@@ -129,32 +129,31 @@
                 window.location.href = "/index";
                 return;
             }
-            var taskArray = "";
             var taskNum = $("[id^='task_id_']").length;
-            for (var i=1;i<taskNum+1;i++){
-                var content = $("#content_"+i).val();
-                var issue = $("#issue_"+i).val();
-                var spend_time = $("#spend_time_"+i).val();
-                var schedule = $("#schedule_"+i).val();
-                var problem = $("#problem_"+i).val();
-                var solution = $("#solution_"+i).val();
-                var remark = $("#remark_"+i).val();
-                var str = content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark;
-                //var oneArray = (content, issue, spend_time, schedule, problem, solution, remark);
-                taskArray = taskArray + str + ";"
-            }
-            var subStr = taskArray.substr(0,taskArray.length-1);
+{#            var taskArray = "";#}
+{#            for (var i=1;i<taskNum+1;i++){#}
+{#                var content = $("#content_"+i).val();#}
+{#                var issue = $("#issue_"+i).val();#}
+{#                var spend_time = $("#spend_time_"+i).val();#}
+{#                var schedule = $("#schedule_"+i).val();#}
+{#                var problem = $("#problem_"+i).val();#}
+{#                var solution = $("#solution_"+i).val();#}
+{#                var remark = $("#remark_"+i).val();#}
+{#                var str = content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark;#}
+{#                //var oneArray = (content, issue, spend_time, schedule, problem, solution, remark);#}
+{#                taskArray = taskArray + str + ";"#}
+{#            }#}
+{#            var subStr = taskArray.substr(0,taskArray.length-1);#}
             var journal_date = $("#selected_date_id").val();
             var user_id = $("#user_id").val();
             var totalStr = journal_date;
-            alert(1);
             var jsonObj = getFormJson();
             jsonObj.totalStr = totalStr;
             jsonObj.subStr = taskNum;
             $.ajax({
              type: "post",
              url: "/journal/new/doSave",
-             data: jsonObj,//{totalStr:totalStr,subStr:taskNum,rn:Math.random()},//$("#ajax_form").serialize(),
+             data: jsonObj,
              dataType: "text",
              async:false,
              success: function(returnvalue){
@@ -171,14 +170,14 @@
                       }
              });
         }
-        function printObject(obj){
-            //obj = {"cid":"C0","ctext":"区县"};
-            var temp = "";
-            for(var i in obj){//用javascript的for/in循环遍历对象的属性
-            temp += i+":"+obj[i]+"\n";
-            }
-            alert(temp);//结果：cid:C0 \n ctext:区县
-            }
+{#        function printObject(obj){#}
+{#            //obj = {"cid":"C0","ctext":"区县"};#}
+{#            var temp = "";#}
+{#            for(var i in obj){//用javascript的for/in循环遍历对象的属性#}
+{#            temp += i+":"+obj[i]+"\n";#}
+{#            }#}
+{#            alert(temp);//结果：cid:C0 \n ctext:区县#}
+{#            }#}
         function getFormJson(frm) {
               var o = {};
               var a = $("form").serializeArray();
