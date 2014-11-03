@@ -1,5 +1,11 @@
 {% extends "header.html" %}
 {% block content %}
+     {% if 'username' not in session %}
+    <script>
+        alert("需要用户登录!!");
+        window.location.href = "/login";
+    </script>
+    {% endif %}
     <style>
         #div_new{
             background: #ffffff;
@@ -104,14 +110,16 @@
          </tr>
          <tr>
              <td id="td_area" style="background: #ffffff;vertical-align: top;"  height="82%">
+                 {% if journal_index %}
                  <ul class="cbp_tmtimeline">
-                     {% if journal_index %}
+                        {% set months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'] %}
                         {% for row in journal_index %}
                             {% set journal_year = row["journal_date"].split("-")[0] %}
-                            {% set journal_month = row["journal_date"].split("-")[1] %}
+                            {% set journal_month = row["journal_date"].split("-")[1]%}
+                            {% set journal_month_chinese = months[journal_month|int-1] %}
                             {% set journal_day = row["journal_date"].split("-")[2] %}
                         <li>
-                            <time class="cbp_tmtime" datetime="{{ row["create_date"] }}"><span>{{ journal_year }}</span> <span>{{ journal_month }} {{ journal_day }}</span></time>
+                            <time class="cbp_tmtime" datetime="{{ row["create_date"] }}"><span>{{ journal_year }}</span> <span>{{ journal_month_chinese }} {{ journal_day }}</span></time>
                             <div class="cbp_tmicon"></div>
                             <div class="cbp_tmlabel">
                                 <h4>工作日志</h4>
@@ -119,8 +127,11 @@
                             </div>
                         </li>
                         {% endfor %}
-                     {% endif %}
-                </ul>
+                 </ul>
+                 {% else %}
+                     <p></p>
+                     <label style="font-size: 18px">您还没有编写日志，马上<a href="/journal/new">新建</a>第一份日志吧！</label>
+                 {% endif %}
              </td>
          </tr>
       </table>

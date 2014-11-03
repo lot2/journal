@@ -2,7 +2,7 @@
 {% block content %}
     {% if 'username' not in session %}
     <script>
-        alert("长时间未操作，请重新登录!");
+        alert("需要用户登录!!");
         window.location.href = "/login";
     </script>
     {% endif %}
