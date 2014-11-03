@@ -18,6 +18,7 @@
              $("#selected_date_id").val(days);
             var dateStr = dayStr+" "+monthArray[parseInt(dateInit.getMonth())]+"月";
             $("#date_id").html(dateStr);
+            existNew(days);
             $("#datepicker").datepicker({
                 inline:true,
                 numberOfMonths:1,//显示几个月
@@ -41,9 +42,33 @@
                     var selectedStr = selectedArray[2] + " " + monthArray[parseInt(selectedArray[1])-1] + "月";
                     //alert(selectedStr);
                      $("#date_id").html(selectedStr);
+                    existNew(selectedDate);
                 }
             });
         });
+        function existNew(selectedDate){
+            $.ajax({
+             type: "post",
+             url: "/journal/new/existNew",
+             data: {selected_date: selectedDate, rn: Math.random()},
+             dataType: "text",
+             async:false,
+             success: function(returnvalue){
+                                if (parseInt(returnvalue)==1)
+                                {
+                                    $("#save_id").hide();
+                                    $("#div_body").hide();
+                                    $("#new_task_btn").html("<label style=\"font-size: 18px;\">当前日期已存在日志哦，马上进入<a href=\"/journal/manage/"+selectedDate+"\">管理日志</a>吧！</label>");
+                                }
+                                else
+                                {
+                                    $("#save_id").show();
+                                    $("#div_body").show();
+                                    $("#new_task_btn").html("<a href=\"javascript:doNew();\">新任务</a>");
+                                }
+                            }
+             });
+        }
         function doTask(num) {
             $("[id=task_body_"+num+"]").toggle();
         }
@@ -212,7 +237,7 @@
       <table id="tbl_new" cellspacing="0" cellpadding="0" style="vertical-align: top;height: auto;">
          <tr align="right">
              <td height="10%" style="border-bottom: 0px ridge;background: none;">
-                 <a class="btn btn-primary" onclick="doSave()">保存日志</a>
+                 <a class="btn btn-primary" id="save_id" onclick="doSave()">保存日志</a>
 		         <a class="btn" href="/journal/list">返回</a>
              </td>
          </tr>
@@ -266,10 +291,10 @@
                                  </table>
                                  </form>
                              </div>
-                             <div style="height: 60px">
+                             <div id="" style="height: 60px">
                                  <table class="new_task">
                                      <tr>
-                                         <td>
+                                         <td id="new_task_btn">
                                              <a href="javascript:doNew();">新任务</a>
                                          </td>
                                      </tr>
@@ -284,7 +309,7 @@
       </table>
     </div>
     <div class="span2" style="background: #ffffff;height:auto">
-        <div id="datepicker" name="123"></div>
+        <div id="datepicker" name="datepicker"></div>
     </div>
   </div>
 </div>

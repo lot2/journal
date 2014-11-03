@@ -47,6 +47,26 @@ def new():
     return render_template("jnew.html", title='New')
 
 
+@app.route('/journal/new/existNew', methods=['GET', 'POST'])
+def existNew():
+    val = ""
+    if request.method == 'POST':
+        selected_date = request.form["selected_date"]
+        user_id = session["user_id"]
+        cx = g.db
+        cu = cx.cursor()
+        sql = "select distinct 1 flag from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
+              "where a.status != '0' and b.task_status != '0' " \
+              "and a.journal_date = %s and a.user_id = %s and b.task_id is not null"
+        param = (selected_date, user_id)
+        n = cu.execute(sql, param)
+        if int(n) > 0:
+            val = "1"
+        else:
+            val = "0"
+    return val
+
+
 @app.route('/journal/new/doSave', methods=['GET', 'POST'])
 def doSave():
     # if session["username"] == None:
