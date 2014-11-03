@@ -103,48 +103,23 @@
              </td>
          </tr>
          <tr>
-             <td id="td_area" style="background: #ffffff;"  height="82%">
+             <td id="td_area" style="background: #ffffff;vertical-align: top;"  height="82%">
                  <ul class="cbp_tmtimeline">
-                    <li>
-                        <time class="cbp_tmtime" datetime="2013-04-10 18:30"><span>2014</span> <span>03 十月</span></time>
-                        <div class="cbp_tmicon"></div>
-                        <div class="cbp_tmlabel">
-                            <h4>工作日志</h4>
-                            <p>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.<br/>今日完成：XX开发.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time class="cbp_tmtime" datetime="2013-04-11T12:04"><span>2014</span> <span>02 十月</span></time>
-                        <div class="cbp_tmicon"></div>
-                        <div class="cbp_tmlabel">
-                            <h4>工作日志</h4>
-                            <p>123.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time class="cbp_tmtime" datetime="2013-04-13 05:36"><span>2014</span> <span>01 十月</span></time>
-                        <div class="cbp_tmicon"></div>
-                        <div class="cbp_tmlabel">
-                            <h4>工作日志</h4>
-                            <p>学习Git.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time class="cbp_tmtime" datetime="2013-04-15 13:15"><span>2014</span> <span>30 九月</span></time>
-                        <div class="cbp_tmicon"></div>
-                        <div class="cbp_tmlabel">
-                            <h4>工作日志</h4>
-                            <p>学习python</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time class="cbp_tmtime" datetime="2013-04-16 21:30"><span>2014</span> <span>29 九月</span></time>
-                        <div class="cbp_tmicon"></div>
-                        <div class="cbp_tmlabel">
-                            <h4>工作日志</h4>
-                            <p>学习Html5</p>
-                        </div>
-                    </li>
+                     {% if journal_index %}
+                        {% for row in journal_index %}
+                            {% set journal_year = row["journal_date"].split("-")[0] %}
+                            {% set journal_month = row["journal_date"].split("-")[1] %}
+                            {% set journal_day = row["journal_date"].split("-")[2] %}
+                        <li>
+                            <time class="cbp_tmtime" datetime="{{ row["create_date"] }}"><span>{{ journal_year }}</span> <span>{{ journal_month }} {{ journal_day }}</span></time>
+                            <div class="cbp_tmicon"></div>
+                            <div class="cbp_tmlabel">
+                                <h4>工作日志</h4>
+                                <p>{{ row["content_str"]|safe }}</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                     {% endif %}
                 </ul>
              </td>
          </tr>

@@ -7,7 +7,21 @@ from apps import app, tools
 
 @app.route('/journal/list')
 def list():
-    return render_template("jList.html", title='jList')
+    cx = g.db
+    cu = cx.cursor()
+    sql = "select a.*," \
+          "replace(group_concat(case" \
+          " when length(b.contents) > 40 then concat(substring(b.contents, 1, 60),'...') " \
+          "else b.contents " \
+          "end), ',', '<br/>') as content_str " \
+          "from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
+          "where a.status != '0' and b.task_status != '0' " \
+          "and a.user_id = %s " \
+          "group by a.journal_date,a.user_id order by journal_id desc"
+    param = (session["user_id"],)
+    cu.execute(sql, param)
+    journal_index = cu.fetchall()
+    return render_template("jList.html", title='jList', journal_index=journal_index)
 
 
 @app.route('/journal/manage')
@@ -15,7 +29,15 @@ def list():
 def manage(date=None):
     if date == None:
         date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    return render_template("jManage.html", title='jManage', datestr=date)
+    cx = g.db
+    cu = cx.cursor()
+    sql = "select a.*, b.* from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
+          "where a.status != '0' and b.task_status != '0' " \
+          "and a.journal_date = %s and a.user_id = %s order by b.task_id"
+    param = (date, session["user_id"])
+    cu.execute(sql, param)
+    journal_list = cu.fetchall()
+    return render_template("jManage.html", title='jManage', datestr=date, journal_list=journal_list)
 
 
 @app.route('/journal/new')
@@ -28,11 +50,11 @@ def doSave():
     # if session["username"] == None:
     #     return redirect(url_for('index'))
     val = ""
+    error = ""
     if request.method == 'POST':
         cx = g.db
         total_str = request.form["totalStr"]
         sub_str = int(request.form["subStr"])+1
-        error = ""
         try:
             #查询登陆人的用户编号
             cu1 = cx.cursor()
@@ -83,7 +105,4 @@ def doSave():
             print 'fail'
             cx.rollback()
             val = error
-        # count = cu.execute(sql_user, total_str)
-        # if int(count) == 0:
-        #     error = "UserName and Password is wrong."
     return val

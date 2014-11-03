@@ -100,7 +100,16 @@
                 +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
                 +"        </textarea>"
                 +"    </td>"
-                +"</tr></tobdy>";
+                +"</tr>"
+                +"<tr id=\"task_body_"+max_num+"\">"
+                +"    <td>"
+                +"        备注"
+                +"    </td>"
+                +"    <td>"
+                +"        <textarea id=\"remark_"+max_num+"\" name=\"remark_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
+                +"    </td>"
+                +"</tr>"
+                +"</tobdy>";
             $("#total_tasks").append(str);
             for(var i=1;i<max_num;i++){
                 $("[id='task_body_"+i+"']").hide();
@@ -145,35 +154,53 @@
                          <td>
                              <div id="div_body">
                                  <table class="table_body" id="total_tasks">
-                                     <tr id="task_body_1_head">
-                                         <td colspan="2" style="font-size: 24px;height: 50px;"><a href="javascript:doTask('1');" id="task_id_1">任务1</a></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>具体事项</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;">此页面表示查看之前的日志，可以修改并保存。</textarea></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>Issue编号</td>
-                                         <td><input type="text" class="input-xxlarge" value="#73301"></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>花费时间</td>
-                                         <td><input type="text" class="input-xxlarge" value="8:00-10:00"></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>完成情况</td>
-                                         <td><input type="text" class="input-xxlarge" value="Done"></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>存在问题</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;">无</textarea></td>
-                                     </tr>
-                                     <tr id="task_body_1">
-                                         <td>解决措施</td>
-                                         <td><textarea class="input-xxlarge" style="height: 100px;"></textarea></td>
-                                     </tr>
+                                     {% if journal_list%}
+                                         {% set i=0 %}
+                                         {% for row in journal_list%}
+                                             {% set i = i + 1 %}
+                                             {% set task_display = ""%}
+                                             {% if i > 1 %}
+                                             {% set task_display="display:none;" %}
+                                             {% endif %}
+                                             <tr id="task_body_{{ i }}_head">
+                                                 <td colspan="2" style="font-size: 24px;height: 50px;"><a onclick="doTask('{{ i }}');" id="task_id_{{ i }}">任务{{ i }}</a>
+                                                 <input type="hidden" id="db_task_id" value="{{ row["task_id"] }}"></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>具体事项</td>
+                                                 <td><textarea class="input-xxlarge" style="height: 100px;">{{ row["contents"] }}</textarea></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>Issue编号</td>
+                                                 <td><input type="text" class="input-xxlarge" value="{{ row["issue"] }}"></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>花费时间</td>
+                                                 <td><input type="text" class="input-xxlarge" value="{{ row["spend_time"] }}"></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>完成情况</td>
+                                                 <td><input type="text" class="input-xxlarge" value="{{ row["schedule"] }}"></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>存在问题</td>
+                                                 <td><textarea class="input-xxlarge" style="height: 100px;">{{ row["problem"] }}</textarea></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>解决措施</td>
+                                                 <td><textarea class="input-xxlarge" style="height: 100px;">{{ row["solution"] }}</textarea></td>
+                                             </tr>
+                                             <tr id="task_body_{{ i }}" style="{{ task_display }}">
+                                                 <td>备注</td>
+                                                 <td><textarea id="remark_{{ i }}" name="remark_{{ i }}" class="input-xxlarge" style="height: 100px;">{{ row["remark"] }}</textarea></td>
+                                             </tr>
+                                         {% endfor %}
+                                     {% else %}
+                                         <label style="font-size: 18px">此日期无日志，请点击<a href="/journal/new">新建日志</a>.</label>
+                                     {% endif %}
                                  </table>
                              </div>
+                             {% if journal_list %}
                              <div style="height: 60px">
                                  <table class="new_task">
                                      <tr>
@@ -183,6 +210,7 @@
                                      </tr>
                                  </table>
                              </div>
+                             {%endif %}
                          </td>
                      </tr>
                  </table>
@@ -192,7 +220,7 @@
       </table>
     </div>
     <div class="span2" style="background: #ffffff;height:auto">
-        <div id="datepicker" name="123"></div>
+        <div id="datepicker" name="datepicker"></div>
     </div>
   </div>
 </div>

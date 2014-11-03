@@ -3,7 +3,7 @@
     {% if 'username' not in session %}
     <script>
         alert("长时间未操作，请重新登录!");
-        window.location.href = "/index";
+        window.location.href = "/login";
     </script>
     {% endif %}
     <script>
@@ -126,7 +126,7 @@
         function doSave(){
             if ("{{session["username"] }}"==""){
                 alert("长时间未操作，请重新登录!");
-                window.location.href = "/index";
+                window.location.href = "/login";
                 return;
             }
             var taskNum = $("[id^='task_id_']").length;
@@ -145,7 +145,7 @@
 {#            }#}
 {#            var subStr = taskArray.substr(0,taskArray.length-1);#}
             var journal_date = $("#selected_date_id").val();
-            var user_id = $("#user_id").val();
+            var user_id = $("#user_id_session").val();
             var totalStr = journal_date;
             var jsonObj = getFormJson();
             jsonObj.totalStr = totalStr;
