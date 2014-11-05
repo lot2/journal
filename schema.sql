@@ -30,7 +30,8 @@ create table if not exists journal.journal_new_detail (
   problem varchar(2000),
   solution varchar(2000),
   remark varchar(2000),
-  task_status varchar(2) default '1'
+  task_status varchar(2) default '1',
+  row_num integer
 )auto_increment=1000000 DEFAULT CHARSET=utf8;
 
 INSERT INTO journal.sys_users(user_id, user_name, password, status) VALUES ('1', 'admin', '123', '1');

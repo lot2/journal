@@ -13,13 +13,14 @@ def list():
     cu = cx.cursor()
     sql = "select a.*," \
           "replace(group_concat(case" \
-          " when length(b.contents) > 40 then concat(substring(b.contents, 1, 40),'...') " \
-          "else b.contents " \
+          " when length(concat('任务',b.row_num,': ',replace(b.contents,',','，'))) > 38 then " \
+          "concat(substring(concat('任务',b.row_num,': ',replace(b.contents,',','，')), 1, 38),'...') " \
+          "else concat('任务',b.row_num,': ',replace(b.contents,',','，')) " \
           "end), ',', '<br/>') as content_str " \
           "from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
           "where a.status != '0' and b.task_status != '0' " \
           "and a.user_id = %s " \
-          "group by a.journal_date,a.user_id order by journal_id desc limit 0,10"
+          "group by a.journal_date,a.user_id order by journal_date desc limit 0,10"
     param = (session["user_id"],)
     cu.execute(sql, param)
     journal_index = cu.fetchall()
@@ -55,7 +56,8 @@ def existNew():
         user_id = session["user_id"]
         cx = g.db
         cu = cx.cursor()
-        sql = "select distinct 1 flag from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
+        sql = "select distinct 1 flag from journal_new a left join journal_new_detail b " \
+              "ON a.journal_id = b.journal_id " \
               "where a.status != '0' and b.task_status != '0' " \
               "and a.journal_date = %s and a.user_id = %s and b.task_id is not null"
         param = (selected_date, user_id)
@@ -102,8 +104,8 @@ def doSave():
         #插入数据至表journal_new_detail
         cu4 = cx.cursor()
         sql4 = "insert into journal_new_detail" \
-               "(journal_id, contents, issue, spend_time, schedule, problem, solution, remark)" \
-               " values (%s, %s, %s, %s, %s, %s, %s, %s)"
+               "(journal_id, contents, issue, spend_time, schedule, problem, solution, remark, row_num)" \
+               " values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         param4 = []
         for k in range(1, sub_str):
             i = str(k)
@@ -115,14 +117,13 @@ def doSave():
             problem = request.form["problem_"+i]
             solution = request.form["solution_"+i]
             remark = request.form["remark_"+i]
-            param4.append((journal_id, content, issue, spend_time, schedule, problem, solution, remark))
+            row_num = int(i)
+            param4.append((journal_id, content, issue, spend_time, schedule, problem, solution, remark, row_num))
         n = cu4.executemany(sql4, param4)
         if int(n) > 0:
-            print 'success'
             cx.commit()
             val = "1"
         else:
-            print 'fail'
             cx.rollback()
             val = error
     return val
