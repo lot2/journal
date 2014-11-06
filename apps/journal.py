@@ -35,7 +35,7 @@ def manage(date=None):
     cx = g.db
     cu = cx.cursor()
     sql = "select a.*, b.* from journal_new a left join journal_new_detail b ON a.journal_id = b.journal_id " \
-          "where a.status != '0' and b.task_status != '0' " \
+          "where a.status != '0' and b.task_status != '0' and b.task_id is not null " \
           "and a.journal_date = %s and a.user_id = %s order by b.task_id"
     param = (date, session["user_id"])
     cu.execute(sql, param)
@@ -119,6 +119,45 @@ def doSave():
             remark = request.form["remark_"+i]
             row_num = int(i)
             param4.append((journal_id, content, issue, spend_time, schedule, problem, solution, remark, row_num))
+        n = cu4.executemany(sql4, param4)
+        if int(n) > 0:
+            cx.commit()
+            val = "1"
+        else:
+            cx.rollback()
+            val = error
+    return val
+
+
+@app.route('/journal/new/doModify', methods=['GET', 'POST'])
+def doModify():
+    # if session["username"] == None:
+    #     return redirect(url_for('index'))
+    val = ""
+    error = ""
+    if request.method == 'POST':
+        cx = g.db
+        sub_str = int(request.form["subStr"])+1
+
+        #插入数据至表journal_new_detail
+        cu4 = cx.cursor()
+        sql4 = "replace into journal_new_detail" \
+               "(task_id, journal_id, contents, issue, spend_time, schedule, problem, solution, remark, row_num)" \
+               " values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        param4 = []
+        for k in range(1, sub_str):
+            i = str(k)
+            task_id = request.form["db_task_id_"+i]
+            journal_id = request.form["journal_id_"+i]
+            content = request.form["content_"+i]
+            issue = request.form["issue_"+i]
+            spend_time = request.form["spend_time_"+i]
+            schedule = request.form["schedule_"+i]
+            problem = request.form["problem_"+i]
+            solution = request.form["solution_"+i]
+            remark = request.form["remark_"+i]
+            row_num = int(i)
+            param4.append((task_id, journal_id, content, issue, spend_time, schedule, problem, solution, remark, row_num))
         n = cu4.executemany(sql4, param4)
         if int(n) > 0:
             cx.commit()

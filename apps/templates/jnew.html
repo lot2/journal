@@ -155,20 +155,6 @@
                 return;
             }
             var taskNum = $("[id^='task_id_']").length;
-{#            var taskArray = "";#}
-{#            for (var i=1;i<taskNum+1;i++){#}
-{#                var content = $("#content_"+i).val();#}
-{#                var issue = $("#issue_"+i).val();#}
-{#                var spend_time = $("#spend_time_"+i).val();#}
-{#                var schedule = $("#schedule_"+i).val();#}
-{#                var problem = $("#problem_"+i).val();#}
-{#                var solution = $("#solution_"+i).val();#}
-{#                var remark = $("#remark_"+i).val();#}
-{#                var str = content+","+issue+","+spend_time+","+schedule+","+problem+","+solution+","+remark;#}
-{#                //var oneArray = (content, issue, spend_time, schedule, problem, solution, remark);#}
-{#                taskArray = taskArray + str + ";"#}
-{#            }#}
-{#            var subStr = taskArray.substr(0,taskArray.length-1);#}
             var journal_date = $("#selected_date_id").val();
             var user_id = $("#user_id_session").val();
             var totalStr = journal_date;
@@ -189,7 +175,7 @@
                         }
                         else
                         {
-                            alert("保存失败！");
+                            alert("保存失败！"+returnvalue);
                             return;
                         }
                       }
