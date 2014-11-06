@@ -1,7 +1,6 @@
 {% extends "header.html" %}
 {% block content %}
     <style>
-
     </style>
     <script>
         $(function(){
@@ -42,14 +41,14 @@
             $("#del_task_"+(num-1)).show();
         }
         function doNew(){
-            var journal_id = $("#journal_id").val();
+            var journal_id = $("#journal_id_1").val();
             var max_num = $("[id^='task_id_']").length+1;
             var str = "<tbody id=\"t_body_"+max_num+"\"><tr>"
                 +"    <td colspan=\"2\" style=\"font-size: 24px;height: 50px;\">"
                 +"        <a href=\"javascript:doTask(\'"+max_num+"\')\" id=\"task_id_"+max_num+"\">"
                 +"            任务"+max_num
                 +"        </a>&nbsp;&nbsp;<a id=\"del_task_"+max_num+"\" style=\"font-size: 24px;height: 50px;\" title=\"删除\" onclick=\"doDel("+max_num+")\">×</a>"
-                +"       <input type=\"hidden\" id=\"db_task_id_"+max_num+"\" name=\"db_task_id_"+max_num+"\" value=\"\">"
+                +"       <input type=\"hidden\" id=\"db_task_id_"+max_num+"\" name=\"db_task_id_"+max_num+"\" value=\"0\">"
                 +"       <input type=\"hidden\" id=\"journal_id_"+max_num+"\" name=\"journal_id_"+max_num+"\" value=\""+journal_id+"\">"
                 +"    </td>"
                 +"</tr>"
@@ -58,8 +57,7 @@
                 +"        具体事项"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"content_"+max_num+"\" name=\"content_"+max_num+"\"  class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -67,7 +65,7 @@
                 +"        Issue编号"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"issue_"+max_num+"\" name=\"issue_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -75,7 +73,7 @@
                 +"        花费时间"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"spend_time_"+max_num+"\" name=\"spend_time_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -83,7 +81,7 @@
                 +"        完成情况"
                 +"    </td>"
                 +"    <td>"
-                +"        <input type=\"text\" class=\"input-xxlarge\">"
+                +"        <input id=\"schedule_"+max_num+"\" name=\"schedule_"+max_num+"\" type=\"text\" class=\"input-xxlarge\">"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -91,8 +89,7 @@
                 +"        存在问题"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"problem_"+max_num+"\" name=\"problem_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -100,8 +97,7 @@
                 +"        解决措施"
                 +"    </td>"
                 +"    <td>"
-                +"        <textarea class=\"input-xxlarge\" style=\"height: 100px;\">"
-                +"        </textarea>"
+                +"        <textarea id=\"solution_"+max_num+"\" name=\"solution_"+max_num+"\" class=\"input-xxlarge\" style=\"height: 100px;\"></textarea>"
                 +"    </td>"
                 +"</tr>"
                 +"<tr id=\"task_body_"+max_num+"\">"
@@ -135,7 +131,9 @@
              data: jsonObj,
              dataType: "text",
              async:false,
+             beforeSend:doLoading(),
              success: function(returnvalue){
+                        $("#loading_div").hide();
                         if (parseInt(returnvalue)==1)
                         {
                             alert("修改成功！");
@@ -148,6 +146,9 @@
                         }
                       }
              });
+        }
+        function doLoading(){
+            $("#loading_div").show();
         }
         function getFormJson(frm) {
               var o = {};
@@ -165,6 +166,7 @@
               return o;
         }
     </script>
+<div id="loading_div" style="display: none;"></div>
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2"  style="background: none;height:auto">

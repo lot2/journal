@@ -167,7 +167,9 @@
              data: jsonObj,
              dataType: "text",
              async:false,
+             beforeSend:doLoading(),
              success: function(returnvalue){
+                        $("#loading_div").hide();
                         if (parseInt(returnvalue)==1)
                         {
                             alert("保存成功！");
@@ -180,6 +182,9 @@
                         }
                       }
              });
+        }
+        function doLoading(){
+            $("#loading_div").show();
         }
 {#        function printObject(obj){#}
 {#            //obj = {"cid":"C0","ctext":"区县"};#}
@@ -205,6 +210,7 @@
               return o;
         }
     </script>
+<div id="loading_div" style="display: none;"></div>
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2"  style="background: none;height:auto;min-height:700px;">
