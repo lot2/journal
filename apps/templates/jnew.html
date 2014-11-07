@@ -155,6 +155,19 @@
                 return;
             }
             var taskNum = $("[id^='task_id_']").length;
+            var empty_flag = 0;
+            $.each($("[id^='task_id_']"),function(k,v){
+                var content_val = $("#content_"+(k+1)).val();
+                if (content_val.trim()=="")
+                {
+                    empty_flag++;
+                }
+            });
+            if (empty_flag>0)
+            {
+                alert("【具体事项】为必填项，请检查！");
+                return;
+            }
             var journal_date = $("#selected_date_id").val();
             var user_id = $("#user_id_session").val();
             var totalStr = journal_date;
